@@ -61,7 +61,9 @@ function getModalitys(req, res) {
                     });
                 }
             }
-        });
+        })
+        .populate('type')
+        .populate('teachers');
     } else {
         res.status(404).send({
             status: 'err',
@@ -126,7 +128,9 @@ function getModalitysActive(req, res) {
                     });
                 }
             }
-        });
+        })
+        .populate('type')
+        .populate('teachers');;
     } else {
         res.status(404).send({
             status: 'err',
