@@ -5,30 +5,30 @@
 //Servicios
 
 //Modelos
-var Student = require('../models/studentModel');
+var modality = require('../models/modalityModel');
 
 // Acciones
-function addStudent(req, res) {
-    var student = new Student();
+function addModality(req, res) {
+    var newModality = new modality();
     var params = req.body;
-    if (params.name && params.surname && params.birthDate && params.father && params.state && params.gender) {
-        student = studentReader(params);
-        student.save((err, studentStored) => {
+    if (params.name && params.dance && params.type && params.year && params.teachers) {
+        newModality = ModalityReader(params);
+        newModality.save((err, ModalityStored) => {
             if (err) {
                 res.status(500).send({
-                    message: "Error al guardar el alumno",
+                    message: "Error al guardar la modalidad.",
                     type: 'err'
                 });
             } else {
-                if(!studentStored) {
+                if(!ModalityStored) {
                     res.status(404).send({
-                        message: "Error al guardar el alumno",
+                        message: "Error al guardar la modalidad.",
                         type: 'err'
                     });
                 } else {
                     res.status(200).send({
                         type: "ok",
-                        message: 'Registro completo! Se creo un nuevo alumno: ' + student.name + ' ' + student.surname +'.'
+                        message: 'Registro completo! Se creo una modalidad: ' + newModality.name 
                     });
                 }
             }
@@ -41,27 +41,27 @@ function addStudent(req, res) {
     }
 }
 
-function getStudents(req, res) {
+function getModalitys(req, res) {
     if (1) {
-        Student.find({}, (err, students) => {
+        modality.find({}, (err, Modalitys) => {
             if (err) {
                 res.status(500).send({
                     status: 'err',
                     message: 'Error en la peticion!'
                 });
             } else {
-                if (!students) {
+                if (!Modalitys) {
                     res.status(404).send({
                         status: 'err',
-                        message: 'No hay alumnos!'
+                        message: 'No hay modalidades!'
                     });
                 } else {
                     res.status(200).send({
-                        students
+                        Modalitys
                     });
                 }
             }
-        }).populate('father');
+        });
     } else {
         res.status(404).send({
             status: 'err',
@@ -70,25 +70,25 @@ function getStudents(req, res) {
     }
 }
 
-function updateStudent (req, res) {
-    var studentId = req.params.id;
+function updateModality (req, res) {
+    var ModalityId = req.params.id;
     var params = req.body;
-    if(params.name && params.surname && params.birthDate && params.father) {
-        Student.findByIdAndUpdate(studentId, params, (err, studentUpdated) => {
+    if(params.name && params.dance && params.type && params.year && params.teachers) {
+        modality.findByIdAndUpdate(ModalityId, params, (err, ModalityUpdated) => {
             if (err) {
                 res.status(500).send({
-                    message: 'Error al actualizar el alumno',
+                    message: 'Error al actualizar la modalidad.',
                     type: 'err'
                 });
             } else {
-                if (!studentUpdated) {
+                if (!ModalityUpdated) {
                     res.status(404).send({
-                        message: 'No se pudo actualizar el alumno',
+                        message: 'No se pudo actualizar la modalidad.',
                         type: 'err'
                     });
                 } else {
                     res.status(200).send({
-                        student: studentUpdated
+                        modality: ModalityUpdated
                     });
                 }
             }
@@ -101,27 +101,32 @@ function updateStudent (req, res) {
     }
 }
 
-function getStudentsActive(req, res) {
+function deleteModality(req, res) {
+    // hay que crearla teniendo en cuenta los documentos que hacen referencia a el.
+}
+
+// Obtiene las modalidades activas
+function getModalitysActive(req, res) {
     if (1) {
-        Student.find({state: true}, (err, students) => {
+        modality.find({state: true}, (err, Modalitys) => {
             if (err) {
                 res.status(500).send({
                     status: 'err',
                     message: 'Error en la peticion!'
                 });
             } else {
-                if (!students) {
+                if (!Modalitys) {
                     res.status(404).send({
                         status: 'err',
-                        message: 'No hay alumnos!'
+                        message: 'No hay modalidades activas!'
                     });
                 } else {
                     res.status(200).send({
-                        students
+                        Modalitys
                     });
                 }
             }
-        }).populate('father');
+        });
     } else {
         res.status(404).send({
             status: 'err',
@@ -130,18 +135,17 @@ function getStudentsActive(req, res) {
     }
 }
 
-function studentReader(params) {
-    var student = new Student();
-    student.name = params.name;
-    student.surname = params.surname;
-    student.birthDate = params.birthDate;
-    student.phone = params.phone;
-    student.details = params.details;
-    student.father = params.father;
-    student.state = params.state;
-    student.gender = params.gender;
-    return student;
+function ModalityReader(params) {
+    var newModality = new modality();
+    newModality.name = params.name;
+    newModality.dance = params.dance;
+    newModality.type = params.type;
+    newModality.year = params.year;
+    newModality.state = params.state;
+    newModality.teachers = params.teachers;
+    newModality.createdAt = params.createdAt;
+    return newModality;
 }
 
 // export
-module.exports = { addStudent, getStudents, updateStudent, getStudentsActive };
+module.exports = { addModality, getModalitys, updateModality, deleteModality, getModalitysActive };

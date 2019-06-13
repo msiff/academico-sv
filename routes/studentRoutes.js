@@ -11,6 +11,7 @@ var midAuth = require('../middlewares/authenticated');
 api.post('/addStudent', midAuth.ensureAuth, studentController.addStudent);
 api.get('/getStudents', midAuth.ensureAuth, studentController.getStudents);
 api.put('/updateStudent/:id', midAuth.ensureAuth, studentController.updateStudent);
+api.get('/getStudentsActive', midAuth.ensureAuth, studentController.getStudentsActive);
 //api.get('/get-solicitudes',midAuth.ensureAuth, adminController.getSolicitudes);
 //api.post('/new-owner/:id',midAuth.ensureAuth, adminController.newOwner);
 

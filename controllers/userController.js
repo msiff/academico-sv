@@ -207,5 +207,34 @@ function updateUser(req, res) {
     }
 }
 
+function getUsersActive(req, res) {
+    if (req.user.role == 'admin' || req.user.role == 'employee') {
+        User.find({state: true}, (err, users) => {
+            if (err) {
+                res.status(500).send({
+                    status: 'err',
+                    message: 'Error en la peticion!'
+                });
+            } else {
+                if (!users) {
+                    res.status(404).send({
+                        status: 'err',
+                        message: 'No hay usuarios!'
+                    });
+                } else {
+                    res.status(200).send({
+                        users
+                    });
+                }
+            }
+        });
+    } else {
+        res.status(404).send({
+            status: 'err',
+            message: 'No tienes permiso para realizar esta peticion.'
+        });
+    }
+}
+
 // export
-module.exports = { registrarUser, loginUser, getUsers, updateUser };
+module.exports = { registrarUser, loginUser, getUsers, updateUser, getUsersActive };

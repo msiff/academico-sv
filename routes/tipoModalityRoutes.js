@@ -12,6 +12,7 @@ api.post('/addTipoModality', midAuth.ensureAuth, tipoModalityController.addtipoM
 api.get('/getTipoModalitys', midAuth.ensureAuth, tipoModalityController.gettipoModalitys);
 api.put('/updateTipoModality/:id', midAuth.ensureAuth, tipoModalityController.updateTipoModality);
 api.delete('/deleteTipoModality/:id', midAuth.ensureAuth, tipoModalityController.deleteTipoModality);
+api.get('/getTipoModalitysActive', midAuth.ensureAuth, tipoModalityController.getTipoModalitysActive);
 //api.get('/get-solicitudes',midAuth.ensureAuth, adminController.getSolicitudes);
 //api.post('/new-owner/:id',midAuth.ensureAuth, adminController.newOwner);
 

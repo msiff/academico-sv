@@ -12,6 +12,7 @@ api.post('/registrarUser', userController.registrarUser);
 api.post('/loginUser', userController.loginUser);
 api.get('/getUsers',midAuth.ensureAuth, userController.getUsers);
 api.put('/updateUser/:id', midAuth.ensureAuth, userController.updateUser);
+api.get('/getUsersActive',midAuth.ensureAuth, userController.getUsersActive);
 //api.get('/get-solicitudes',midAuth.ensureAuth, adminController.getSolicitudes);
 //api.post('/new-owner/:id',midAuth.ensureAuth, adminController.newOwner);
 

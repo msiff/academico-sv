@@ -70,6 +70,35 @@ function gettipoModalitys(req, res) {
     }
 }
 
+function getTipoModalitysActive(req, res) {
+    if (1) {
+        tipoModality.find({state: true}, (err, tipoModalitys) => {
+            if (err) {
+                res.status(500).send({
+                    status: 'err',
+                    message: 'Error en la peticion!'
+                });
+            } else {
+                if (!tipoModalitys) {
+                    res.status(404).send({
+                        status: 'err',
+                        message: 'No hay tipos de modalidad!'
+                    });
+                } else {
+                    res.status(200).send({
+                        tipoModalitys
+                    });
+                }
+            }
+        });
+    } else {
+        res.status(404).send({
+            status: 'err',
+            message: 'No tienes permiso para realizar esta peticion.'
+        });
+    }
+}
+
 function updateTipoModality (req, res) {
     var tipoModalityId = req.params.id;
     var params = req.body;
@@ -114,4 +143,4 @@ function tipoModalityReader(params) {
 }
 
 // export
-module.exports = { addtipoModality, gettipoModalitys, updateTipoModality, deleteTipoModality };
+module.exports = { addtipoModality, gettipoModalitys, updateTipoModality, deleteTipoModality, getTipoModalitysActive };

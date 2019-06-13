@@ -10,6 +10,7 @@ var userRoutes = require('./routes/userRoutes');
 var fatherRoutes = require('./routes/fatherRoutes');
 var studentRoutes = require('./routes/studentRoutes');
 var tipoModalityRoutes = require('./routes/tipoModalityRoutes');
+var modalityRoutes = require('./routes/modalityRoutes');
 
 // middlewares de body-parser
 app.use(bodyParser.urlencoded({ extended: false })); // Config necesaria para usar bodyP.
@@ -39,7 +40,8 @@ app.use(function (req, res, next) {
 app.use('/api', userRoutes);
 app.use('/api', fatherRoutes);
 app.use('/api', studentRoutes);
-app.use('/api', tipoModalityRoutes);   
+app.use('/api', tipoModalityRoutes);
+app.use('/api', modalityRoutes);
 // para que todas las url de nuestra api precedan de /api.
 // app.post('/confirmation', userController.confirmationPost); // Esta es para confirmar el email
 // app.post('/resend', userController.resendTokenPost); // Esta es para renviar el token en caso de ser necesario. 
