@@ -10,7 +10,7 @@ var modalityController = require('../controllers/modalityController');
 var midAuth = require('../middlewares/authenticated');
 
 // Rutas
-api.post('/addModality', midAuth.ensureAuth, modalityController.addModality);
+api.post('/addModality', modalityController.addModality);
 api.get('/getModalitys', midAuth.ensureAuth, modalityController.getModalitys);
 api.put('/updateModality/:id', midAuth.ensureAuth, modalityController.updateModality);
 api.delete('/deleteModality/:id', midAuth.ensureAuth, modalityController.deleteModality);

@@ -5,13 +5,14 @@
 //Servicios
 
 //Modelos
-var modality = require('../models/modalityModel');
+var Modality = require('../models/modalityModel');
 
 // Acciones
 function addModality(req, res) {
-    var newModality = new modality();
+    var newModality = new Modality();
     var params = req.body;
-    if (params.name && params.dance && params.type && params.year && params.teachers) {
+    // if (params.name && params.dance && params.type && params.year && params.teachers) {
+    if (1) {
         newModality = ModalityReader(params);
         newModality.save((err, ModalityStored) => {
             if (err) {
@@ -22,7 +23,7 @@ function addModality(req, res) {
             } else {
                 if(!ModalityStored) {
                     res.status(404).send({
-                        message: "Error al guardar la modalidad.",
+                        message: "No se pudo guardar la modalidad.",
                         type: 'err'
                     });
                 } else {
@@ -43,21 +44,21 @@ function addModality(req, res) {
 
 function getModalitys(req, res) {
     if (1) {
-        modality.find({}, (err, Modalitys) => {
+        Modality.find({}, (err, modalitys) => {
             if (err) {
                 res.status(500).send({
                     status: 'err',
                     message: 'Error en la peticion!'
                 });
             } else {
-                if (!Modalitys) {
+                if (!modalitys) {
                     res.status(404).send({
                         status: 'err',
                         message: 'No hay modalidades!'
                     });
                 } else {
                     res.status(200).send({
-                        Modalitys
+                        modalitys
                     });
                 }
             }
@@ -76,7 +77,7 @@ function updateModality (req, res) {
     var ModalityId = req.params.id;
     var params = req.body;
     if(params.name && params.dance && params.type && params.year && params.teachers) {
-        modality.findByIdAndUpdate(ModalityId, params, (err, ModalityUpdated) => {
+        Modality.findByIdAndUpdate(ModalityId, params, (err, ModalityUpdated) => {
             if (err) {
                 res.status(500).send({
                     message: 'Error al actualizar la modalidad.',
@@ -110,27 +111,27 @@ function deleteModality(req, res) {
 // Obtiene las modalidades activas
 function getModalitysActive(req, res) {
     if (1) {
-        modality.find({state: true}, (err, Modalitys) => {
+        Modality.find({state: true}, (err, modalitys) => {
             if (err) {
                 res.status(500).send({
                     status: 'err',
                     message: 'Error en la peticion!'
                 });
             } else {
-                if (!Modalitys) {
+                if (!modalitys) {
                     res.status(404).send({
                         status: 'err',
                         message: 'No hay modalidades activas!'
                     });
                 } else {
                     res.status(200).send({
-                        Modalitys
+                        modalitys
                     });
                 }
             }
         })
         .populate('type')
-        .populate('teachers');;
+        .populate('teachers');
     } else {
         res.status(404).send({
             status: 'err',
@@ -140,14 +141,13 @@ function getModalitysActive(req, res) {
 }
 
 function ModalityReader(params) {
-    var newModality = new modality();
+    var newModality = new Modality();
     newModality.name = params.name;
     newModality.dance = params.dance;
     newModality.type = params.type;
     newModality.year = params.year;
     newModality.state = params.state;
     newModality.teachers = params.teachers;
-    newModality.createdAt = params.createdAt;
     return newModality;
 }
 
