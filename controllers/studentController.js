@@ -20,7 +20,7 @@ function addStudent(req, res) {
                     type: 'err'
                 });
             } else {
-                if(!studentStored) {
+                if (!studentStored) {
                     res.status(404).send({
                         message: "Error al guardar el alumno",
                         type: 'err'
@@ -28,7 +28,7 @@ function addStudent(req, res) {
                 } else {
                     res.status(200).send({
                         type: "ok",
-                        message: 'Registro completo! Se creo un nuevo alumno: ' + student.name + ' ' + student.surname +'.'
+                        message: 'Registro completo! Se creo un nuevo alumno: ' + student.name + ' ' + student.surname + '.'
                     });
                 }
             }
@@ -70,10 +70,10 @@ function getStudents(req, res) {
     }
 }
 
-function updateStudent (req, res) {
+function updateStudent(req, res) {
     var studentId = req.params.id;
     var params = req.body;
-    if(params.name && params.surname && params.birthDate && params.father) {
+    if (params.name && params.surname && params.birthDate && params.father) {
         Student.findByIdAndUpdate(studentId, params, (err, studentUpdated) => {
             if (err) {
                 res.status(500).send({
@@ -103,7 +103,7 @@ function updateStudent (req, res) {
 
 function getStudentsActive(req, res) {
     if (1) {
-        Student.find({state: true}, (err, students) => {
+        Student.find({ state: true }, (err, students) => {
             if (err) {
                 res.status(500).send({
                     status: 'err',
@@ -143,5 +143,36 @@ function studentReader(params) {
     return student;
 }
 
+function studentsCount(req, res) {
+    Student.countDocuments({ }, (err, counterTotal) => {
+        if (err) {
+            res.status(500).send({
+                status: 'err',
+                message: 'Error en la peticion!'
+            });
+        } else {
+            if (!counterTotal) {
+                res.status(404).send({
+                    status: 'err',
+                    message: 'No hay alumnos!'
+                });
+            } else {
+                Student.countDocuments({ state: true }, (err, counterActivos) => {
+                    if (err) {
+                    } else {
+                        if (!counterActivos) {
+                        } else {
+                            res.status(200).send({
+                                Total: counterTotal,
+                                Activos: counterActivos
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    });
+}
+
 // export
-module.exports = { addStudent, getStudents, updateStudent, getStudentsActive };
+module.exports = { addStudent, getStudents, updateStudent, getStudentsActive, studentsCount };

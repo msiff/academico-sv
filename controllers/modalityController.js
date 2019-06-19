@@ -151,5 +151,36 @@ function ModalityReader(params) {
     return newModality;
 }
 
+function modalityCount(req, res) {
+    Modality.countDocuments({ }, (err, counterTotal) => {
+        if (err) {
+            res.status(500).send({
+                status: 'err',
+                message: 'Error en la peticion!'
+            });
+        } else {
+            if (!counterTotal) {
+                res.status(404).send({
+                    status: 'err',
+                    message: 'No hay alumnos!'
+                });
+            } else {
+                Modality.countDocuments({ state: true }, (err, counterActivos) => {
+                    if (err) {
+                    } else {
+                        if (!counterActivos) {
+                        } else {
+                            res.status(200).send({
+                                Total: counterTotal,
+                                Activos: counterActivos
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    });
+}
+
 // export
-module.exports = { addModality, getModalitys, updateModality, deleteModality, getModalitysActive };
+module.exports = { addModality, getModalitys, updateModality, deleteModality, getModalitysActive, modalityCount };

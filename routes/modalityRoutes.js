@@ -15,6 +15,7 @@ api.get('/getModalitys', midAuth.ensureAuth, modalityController.getModalitys);
 api.put('/updateModality/:id', midAuth.ensureAuth, modalityController.updateModality);
 api.delete('/deleteModality/:id', midAuth.ensureAuth, modalityController.deleteModality);
 api.get('/getModalitysActive', midAuth.ensureAuth, modalityController.getModalitysActive);
+api.get('/modalityCount', modalityController.modalityCount);
 //api.get('/get-solicitudes',midAuth.ensureAuth, adminController.getSolicitudes);
 //api.post('/new-owner/:id',midAuth.ensureAuth, adminController.newOwner);
 
